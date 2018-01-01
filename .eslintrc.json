@@ -1,0 +1,26 @@
+{
+    "extends": [
+        "standard",
+        "eslint:recommended",
+        "plugin:react/recommended"
+    ],
+    "ecmaFeatures": {
+        "jsx": true,
+        "modules": true
+    },
+    "plugins": [
+        "react"
+    ],
+    "rules": {
+        "semi": ["error", "never"],
+        "react/prop-types": 0,
+        "eol-last": ["error", "always"]
+    },
+    "env": {
+        "browser": true,
+        "node": true
+    },
+    "globals": {
+        "document": false
+    }
+}
