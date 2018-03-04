@@ -112,6 +112,26 @@ img.restaurant-logo {
   }
 }
 
+.gallery-picture {
+  height: 160px;
+
+  img {
+    max-height: 140px;
+  }
+
+  a.button-remove {
+    position: absolute;
+    top: 0;
+    right: 15px;
+    padding: 3px 7px;
+    background: rgba($color: #EEE, $alpha: 0.4);
+
+    &:hover {
+      background: rgba($color: #EEE, $alpha: 0.8);
+    }
+  }
+}
+
 @media screen and (max-width: 767px) {
   .button-control {
     margin-top: 0;

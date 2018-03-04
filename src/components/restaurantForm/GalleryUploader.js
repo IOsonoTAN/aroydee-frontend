@@ -4,6 +4,7 @@ import Dropzone from 'react-dropzone'
 import { Image } from 'cloudinary-react'
 import { cloudinary } from '../../services'
 import { actionsSetLoading, actionsChangeGallery } from '../../actions/restaurantActions'
+import ActionDelete from 'material-ui/svg-icons/action/delete'
 
 class GalleryUploader extends React.Component {
   constructor(props) {
@@ -31,7 +32,9 @@ class GalleryUploader extends React.Component {
     this.props.requestSubmit(this.props.restaurantReducers.restaurant)
   }
 
-  async handleRemovePicture (publidId) {
+  async handleRemovePicture (e, publidId) {
+    e.preventDefault()
+
     if (window.confirm('Do you want to remove this picture?')) {
       this.props.dispatch(actionsSetLoading(true))
       let gallery = this.props.restaurantReducers.restaurant.gallery
@@ -44,7 +47,7 @@ class GalleryUploader extends React.Component {
   }
 
   render () {
-    let { gallery, moduleName, moduleDesc } = this.props
+    let { gallery, moduleDesc } = this.props
 
     moduleDesc = (!moduleDesc ? 'description of this picture' : moduleDesc)
 
@@ -52,27 +55,29 @@ class GalleryUploader extends React.Component {
       <div className="wrapper">
         <h4 style={{
           textTransform: 'capitalize'
-        }}>{moduleName}</h4>
+        }}>Gallery</h4>
         <p><small>{moduleDesc}</small></p>
         <Dropzone
-          onDrop={(accepted) => this.handleUpload(accepted, moduleName)}
+          onDrop={(accepted) => this.handleUpload(accepted)}
           accept="image/*"
-          className={`dropzone-uploader restaurant-${moduleName} margin-bottom-10`}
+          className={`dropzone-uploader restaurant-gallery margin-bottom-10`}
         >
           <p>drop or click to upload new picture into gallery</p>
         </Dropzone>
         <div className="row">
           {gallery.map((picture, i) => {
             return (
-              <div className="col-xs-6" key={i}>
+              <div className="col-xs-6 gallery-picture" key={i}>
                 <Image
                   cloudName={cloudinary.config.cloudName}
                   publicId={picture.publicId}
                   alt={picture.alt}
                   crop="thumb"
-                  className={`img-responsive restaurant-${moduleName} img-center margin-bottom-10`}
-                  onClick={e => this.handleRemovePicture(picture.publicId)}
+                  className={`img-responsive restaurant-gallery img-center margin-bottom-10`}
                 />
+                <a className="button-remove" href="#" onClick={e => this.handleRemovePicture(e, picture.publicId)}>
+                  <ActionDelete />
+                </a>
               </div>
             )
           })}

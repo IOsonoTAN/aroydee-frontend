@@ -33,6 +33,7 @@ class Description extends React.Component {
             floatingLabelText="Description in Thai"
             fullWidth={true}
             multiLine={true}
+            rows={4}
             rowsMax={8}
             defaultValue={description.th}
             onChange={e => this.handleDescription('th', e.target.value)}
@@ -46,6 +47,7 @@ class Description extends React.Component {
             floatingLabelText="Description in English"
             fullWidth={true}
             multiLine={true}
+            rows={4}
             rowsMax={8}
             defaultValue={description.en}
             onChange={e => this.handleDescription('en', e.target.value)}
