@@ -139,6 +139,15 @@ export default (state = stateDefaults, { type, payload }) => {
         }
       }
     }
+    case "CHANGE_GALLERY": {
+      return {
+        ...state,
+        restaurant: {
+          ...state.restaurant,
+          gallery: payload
+        }
+      }
+    }
     case "CHANGE_BUSINESS_HOURS": {
       return {
         ...state,

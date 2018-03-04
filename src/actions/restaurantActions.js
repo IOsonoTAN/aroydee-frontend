@@ -88,6 +88,13 @@ export const actionsChangePictures = pictures => {
   }
 }
 
+export const actionsChangeGallery = gallery => {
+  return {
+    type: 'CHANGE_GALLERY',
+    payload: gallery
+  }
+}
+
 export const actionsChangeBusinessHours = businessHours => {
   return {
     type: 'CHANGE_BUSINESS_HOURS',

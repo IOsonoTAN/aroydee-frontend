@@ -3,7 +3,7 @@ import axios from 'axios'
 import { connect } from 'react-redux'
 import { actionsSetInitState, actionsSetLoading, actionsSetCanEdit } from '../actions/restaurantActions'
 import { Snackbar } from 'material-ui'
-import { BusinessHours, Description, Kind, MapLocation, PictureUploader, RatingSlider, TextboxTelephone, Title, Type } from '../components/restaurantForm'
+import { BusinessHours, Description, GalleryUploader, Kind, MapLocation, PictureUploader, RatingSlider, TextboxTelephone, Title, Type } from '../components/restaurantForm'
 import Loading from '../components/Loading'
 import ButtonControllers from '../components/ButtonControllers'
 import { apiUrl, appName } from '../config'
@@ -129,9 +129,6 @@ class RestaurantEdit extends React.Component {
 
   async handleSubmit (e) {
     e.preventDefault()
-
-    console.log('handleSubmit ->', this.props.restaurantReducers)
-
     this.requestSubmit(this.props.restaurantReducers.restaurant)
   }
 
@@ -211,8 +208,11 @@ class RestaurantEdit extends React.Component {
                   />
                 </div>
                 <div className="col-xs-12 col-sm-6">
-                  <h4>Gallery</h4>
-                  <p><small>description of this picture</small></p>
+                  <GalleryUploader
+                    moduleName='gallery'
+                    gallery={this.props.restaurantReducers.restaurant.gallery}
+                    requestSubmit={this.requestSubmit}
+                  />
                 </div>
               </div>
               <hr />

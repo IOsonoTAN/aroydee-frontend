@@ -58,7 +58,7 @@ class PictureUploader extends React.Component {
           accept="image/*"
           className={`dropzone-uploader restaurant-${moduleName} margin-bottom-10`}
         >
-          <p>drop or click to upload new logo</p>
+          <p>drop or click to upload new {moduleName}</p>
         </Dropzone>
         {picture &&
           <Image
