@@ -4512,6 +4512,12 @@ map-stream@~0.1.0:
     scroll "^2.0.1"
     warning "^3.0.0"
 
+material-ui-pagination@^1.1.6:
+  version "1.1.6"
+  resolved "https://registry.yarnpkg.com/material-ui-pagination/-/material-ui-pagination-1.1.6.tgz#f7990fefd5afaf5eca1c066b2766c3e7e9794d6c"
+  dependencies:
+    prop-types "^15.5.9"
+
 material-ui@^0.20.0:
   version "0.20.0"
   resolved "https://registry.yarnpkg.com/material-ui/-/material-ui-0.20.0.tgz#85411bb59c916c9c7703f29dcffc44e3a67d5111"
@@ -5625,6 +5631,14 @@ prop-types@^15.5.10, prop-types@^15.5.4, prop-types@^15.5.6, prop-types@^15.5.7,
     loose-envify "^1.3.1"
     object-assign "^4.1.1"
 
+prop-types@^15.5.9:
+  version "15.6.1"
+  resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.6.1.tgz#36644453564255ddda391191fb3a125cbdf654ca"
+  dependencies:
+    fbjs "^0.8.16"
+    loose-envify "^1.3.1"
+    object-assign "^4.1.1"
+
 proxy-addr@~2.0.2:
   version "2.0.2"
   resolved "https://registry.yarnpkg.com/proxy-addr/-/proxy-addr-2.0.2.tgz#6571504f47bb988ec8180253f85dd7e14952bdec"
@@ -5757,6 +5771,14 @@ rc@^1.0.1, rc@^1.1.6, rc@^1.1.7:
     minimist "^1.2.0"
     strip-json-comments "~2.0.1"
 
+react-addons-create-fragment@^15.0.0:
+  version "15.6.2"
+  resolved "https://registry.yarnpkg.com/react-addons-create-fragment/-/react-addons-create-fragment-15.6.2.tgz#a394de7c2c7becd6b5475ba1b97ac472ce7c74f8"
+  dependencies:
+    fbjs "^0.8.4"
+    loose-envify "^1.3.1"
+    object-assign "^4.1.0"
+
 react-dev-utils@^4.2.1:
   version "4.2.1"
   resolved "https://registry.yarnpkg.com/react-dev-utils/-/react-dev-utils-4.2.1.tgz#9f2763e7bafa1a1b9c52254d2a479deec280f111"
@@ -5829,6 +5851,14 @@ react-jss@^8.1.0:
     jss-preset-default "^4.3.0"
     prop-types "^15.6.0"
     theming "^1.3.0"
+
+react-paginate@^5.1.0:
+  version "5.1.0"
+  resolved "https://registry.yarnpkg.com/react-paginate/-/react-paginate-5.1.0.tgz#9bee5fa9498812042d783f181b1ca043b57b85a5"
+  dependencies:
+    classnames "^2.2.5"
+    prop-types "^15.6.0"
+    react-addons-create-fragment "^15.0.0"
 
 react-popper@^0.8.0:
   version "0.8.2"

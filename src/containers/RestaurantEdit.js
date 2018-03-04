@@ -132,7 +132,7 @@ class RestaurantEdit extends React.Component {
 
     console.log('handleSubmit ->', this.props.restaurantReducers)
 
-    // this.requestSubmit(this.props.restaurantReducers.restaurant)
+    this.requestSubmit(this.props.restaurantReducers.restaurant)
   }
 
   handleDialogClose () {
