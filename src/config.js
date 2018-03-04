@@ -1,23 +1,32 @@
-const nodeEnv = process.env.NODE_ENV
+const nodeEnv = process.env.NODE_ENV || 'development'
 const port = process.env.REACT_APP_PORT || 3000
 const host = process.env.REACT_APP_HOST || 'http://localhost'
 
-const config = {
+const envHelpers = {
+  isProduction: (nodeEnv === 'production'),
+  isDevelopment: (nodeEnv === 'development')
+}
+
+const baseUrl = (envHelpers.isProduction ? host : `${host}:${port}`)
+
+module.exports = {
+  appName: 'Aroydee Channel',
   nodeEnv,
   host,
   port,
-  baseUrl: `${host}:${port}`,
-  account: {
-    google: {
-      clientId: '265158100143-uckobfgj4fdi7unubkihdvhu47dsbrrs.apps.googleusercontent.com'
-    },
-    facebook: {
-      appId: '148570992008274',
-      fields: 'name,email,picture',
-      autoLoad: false
-    }
+  baseUrl,
+  apiUrl: process.env.API_URL || 'http://localhost:5004',
+  cloudinary: {
+    cloudName: process.env.REACT_APP_CLOUDINARY_CLOUD_NAME,
+    apiKey: process.env.REACT_APP_CLOUDINARY_API_KEY,
+    apiSecret: process.env.REACT_APP_CLOUDINARY_API_SECRET
   },
-  isProduction: (nodeEnv === 'production')
+  ...envHelpers,
+  defaultValues: {
+    days: ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'],
+    businessHours: {
+      open: new Date('1989/11/02 08:00:00'),
+      close: new Date('1989/11/02 18:00:00')
+    }
+  }
 }
-
-export default config

@@ -8,9 +8,9 @@ import store from './store'
 import App from './App'
 import './styles/index.css'
 
-store.subscribe(() => {
-  console.log('stote changed ->', store.getState())
-})
+// store.subscribe(() => {
+//   console.log('stote changed ->', store.getState())
+// })
 
 ReactDOM.render(
   <Provider store={store}>

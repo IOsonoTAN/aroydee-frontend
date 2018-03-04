@@ -1,5 +1,14 @@
-.App {
-  text-align: center;
+@for $i from 1 through 4 {
+  $space: $i * 5;
+
+  .margin-top-#{$space} { margin-top: #{$space}px !important; }
+  .margin-left-#{$space} { margin-left: #{$space}px !important; }
+  .margin-right-#{$space} { margin-right: #{$space}px !important; }
+  .margin-bottom-#{$space} { margin-bottom: #{$space}px !important; }
+}
+
+body {
+  margin-bottom: 40px !important;
 }
 
 .App-logo {
@@ -25,6 +34,95 @@
 .helpme {
   color: #F00;
   font-size: 2em;
+}
+
+.field-title {
+  font-size: 12px;
+  font-weight: bold;
+  color: #BBB;
+  margin-top: 20px;
+}
+
+.card-box {
+}
+
+.button-control {
+  margin-top: 28px;
+}
+
+.dropzone-uploader {
+  cursor: pointer;
+  height: 100px;
+  border-radius: 3px;
+  border: 2px dotted #DDD;
+  text-align: center;
+  display: inline-flex;
+  background: #FDFDFD;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+
+  &:hover {
+    background: #EEE;
+  }
+
+  &.restaurant-logo,
+  &.restaurant-feature {
+    height: 100px;
+    pedding: 0px;
+
+    p {
+      font-size: 1em;
+    }
+  }
+
+  p {
+    margin: 0;
+    font-size: 1.1em;
+  }
+}
+
+img.img-center {
+  margin: 0 auto;
+}
+
+img.restaurant-logo {
+  max-height: 150px;
+}
+
+.loading {
+  width: 100%;
+  height: 100vh;
+  background: rgba($color: #222, $alpha: 0.8);
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 9999;
+
+  .wrapper {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-self: center;
+    text-align: center;
+    height: 100vh;
+    width: 100%;
+    color: #FFF;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .button-control {
+    margin-top: 0;
+  }
+  .dropzone-uploader {
+    height: 70px;
+
+    p {
+      font-size: .9em;
+    }
+  }
 }
 
 @keyframes App-logo-spin {
