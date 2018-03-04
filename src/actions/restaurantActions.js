@@ -87,3 +87,10 @@ export const actionsChangePictures = pictures => {
     payload: pictures
   }
 }
+
+export const actionsChangeBusinessHours = businessHours => {
+  return {
+    type: 'CHANGE_BUSINESS_HOURS',
+    payload: businessHours
+  }
+}

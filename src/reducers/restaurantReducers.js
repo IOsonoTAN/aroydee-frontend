@@ -4,7 +4,6 @@ const stateDefaults = {
   loading: true,
   canEdit: false,
   restaurant,
-  businessHours: {},
   businessHoursOpen: [],
   businessHoursClose: []
 }
@@ -118,6 +117,15 @@ export default (state = stateDefaults, { type, payload }) => {
         restaurant: {
           ...state.restaurant,
           pictures: payload
+        }
+      }
+    }
+    case "CHANGE_BUSINESS_HOURS": {
+      return {
+        ...state,
+        restaurant: {
+          ...state.restaurant,
+          businessHours: payload
         }
       }
     }

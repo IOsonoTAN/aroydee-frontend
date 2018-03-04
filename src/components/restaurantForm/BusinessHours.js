@@ -1,5 +1,7 @@
 import React from 'react'
+import { connect } from 'react-redux'
 import { Toggle, TimePicker } from 'material-ui'
+import { actionsChangeBusinessHours } from '../../actions/restaurantActions'
 import config from '../../config'
 import { string } from '../../helpers'
 
@@ -14,76 +16,40 @@ class BusinessHours extends React.Component {
   }
 
   handleBusinessHoursToggle (e, day) {
-    const isToggled = ((e.target.getAttribute('data-toggled') === 'true') === false)
-    const { businessHours, businessHoursOpen, businessHoursClose, restaurant } = this.state
+    const businessHours = this.props.businessHours
+    const isEnabled = (e.target.getAttribute('data-enabled') === 'true')
+    
+    businessHours[day].enabled = (isEnabled !== true)
 
-    businessHours[day].enabled = isToggled
-    businessHoursOpen[day].time = (businessHoursOpen[day].time ? businessHoursOpen[day].time : defaultValues.businessHours.open)
-    businessHoursClose[day].time = (businessHoursClose[day].time ? businessHoursClose[day].time : defaultValues.businessHours.close)
-    this.setState({
-      businessHours,
-      businessHoursOpen,
-      businessHoursClose
-    })
-
-    for (const defaultDay of defaultValues.days) {
-      restaurant.businessHours[defaultDay] = {
-        enabled: (businessHours[defaultDay].enabled === true),
-        open: (businessHoursOpen[day].time ? businessHoursOpen[day].time : defaultValues.businessHours.open),
-        close: (businessHoursClose[day].time ? businessHoursClose[day].time : defaultValues.businessHours.close)
-      }
-    }
-    this.setState({
-      restaurant: {
-        ...this.state.restaurant,
-        businessHours: restaurant.businessHours
-      }
-    })
+    this.props.dispatch(actionsChangeBusinessHours(businessHours))
   }
 
   handleTimePicker (type, day, date) {
-    const { businessHoursOpen, businessHoursClose, restaurant } = this.state
+    const businessHours = this.props.businessHours
     const hours = string.zeroFill(date.getHours())
     const minutes = string.zeroFill(date.getMinutes())
 
-    if (type === 'open') {
-      businessHoursOpen[day].time = new Date(`1989/11/02 ${hours}:${minutes}:00`)
-    } else {
-      businessHoursClose[day].time = new Date(`1989/11/02 ${hours}:${minutes}:00`)
-    }
+    businessHours[day][type] = new Date(`1989/11/02 ${hours}:${minutes}:00`)
 
-    this.setState({
-      restaurant: {
-        ...this.state.restaurant,
-        businessHoursOpen,
-        businessHoursClose
-      }
-    })
-
-    for (const defaultDay of defaultValues.days) {
-      restaurant.businessHours[defaultDay].open = (businessHoursOpen[defaultDay].time ? businessHoursOpen[defaultDay].time : defaultValues.businessHours.open)
-      restaurant.businessHours[defaultDay].close = (businessHoursClose[defaultDay].time ? businessHoursClose[defaultDay].time : defaultValues.businessHours.close)
-    }
-    this.setState({
-      restaurant: {
-        ...this.state.restaurant,
-        businessHours: restaurant.businessHours
-      }
-    })
+    this.props.dispatch(actionsChangeBusinessHours(businessHours))
   }
 
   render () {
+    const textFieldStyle = {
+      fontSize: '14px',
+      height: '40px',
+      cursor: 'pointer'
+    }
+
     return (
       <div className="wrapper">
         <h3>Business hours</h3>
         <div className="row">
           {defaultValues.days.map(day => {
-            const businessHours = this.props.businessHours[day]
-            const businessHoursOpen = this.props.businessHoursOpen[day]
-            const businessHoursClose = this.props.businessHoursClose[day]
-            const dataToggled = (businessHours ? businessHours.enabled : false)
-            const defaultOpenTime = defaultValues.businessHours.open
-            const defaultCloseTime = defaultValues.businessHours.close
+            const dayHours = this.props.businessHours[day]
+            const isEnabled = dayHours.enabled
+            const openHours = (typeof dayHours.open === 'string' ? new Date(dayHours.open) : dayHours.open)
+            const closeHours = (typeof dayHours.close === 'string' ? new Date(dayHours.close) : dayHours.close)
 
             return (
               <div key={day}>
@@ -92,10 +58,9 @@ class BusinessHours extends React.Component {
                     <div className="col-xs-12">
                       <Toggle
                         label={day}
-                        onToggle={e => this.props.handleBusinessHoursToggle(e, day)}
-                        toggled={dataToggled}
-                        data-toggled={dataToggled}
-                        ref={el => this.props.businessHours[day] = el}
+                        onToggle={e => this.handleBusinessHoursToggle(e, day)}
+                        toggled={isEnabled}
+                        data-enabled={isEnabled}
                         style={{
                           textTransform: 'capitalize'
                         }}
@@ -107,16 +72,11 @@ class BusinessHours extends React.Component {
                         hintText="Open time"
                         minutesStep={5}
                         fullWidth={true}
-                        textFieldStyle={{
-                          fontSize: '14px',
-                          height: '40px',
-                          cursor: 'pointer'
-                        }}
+                        textFieldStyle={textFieldStyle}
                         autoOk={true}
-                        disabled={!dataToggled}
-                        value={businessHoursOpen && businessHoursOpen.time ? businessHoursOpen.time : defaultOpenTime}
-                        ref={el => this.props.businessHoursOpen[day] = el}
-                        onChange={(e, date) => this.props.handleTimePicker('open', day, date)}
+                        disabled={!isEnabled}
+                        value={openHours}
+                        onChange={(e, date) => this.handleTimePicker('open', day, date)}
                       />
                     </div>
                     <div className="col-xs-6">
@@ -125,16 +85,11 @@ class BusinessHours extends React.Component {
                         hintText="Close time"
                         minutesStep={5}
                         fullWidth={true}
-                        textFieldStyle={{
-                          fontSize: '14px',
-                          height: '40px',
-                          cursor: 'pointer'
-                        }}
+                        textFieldStyle={textFieldStyle}
                         autoOk={true}
-                        disabled={!dataToggled}
-                        value={businessHoursClose && businessHoursClose.time ? businessHoursClose.time : defaultCloseTime}
-                        ref={el => this.props.businessHoursClose[day] = el}
-                        onChange={(e, date) => this.props.handleTimePicker('close', day, date)}
+                        disabled={!isEnabled}
+                        value={closeHours}
+                        onChange={(e, date) => this.handleTimePicker('close', day, date)}
                       />
                     </div>
                   </div>
@@ -148,4 +103,4 @@ class BusinessHours extends React.Component {
   }
 }
 
-export default BusinessHours
+export default connect(state => state)(BusinessHours)

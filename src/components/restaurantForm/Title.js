@@ -15,7 +15,7 @@ class Title extends React.Component {
   }
 
   render() {
-    const { titleTh, titleEn } = this.props
+    const { title } = this.props
 
     return (
       <div className="row">
@@ -26,7 +26,7 @@ class Title extends React.Component {
             hintText="Input title in thai"
             floatingLabelText="Title in Thai"
             fullWidth={true}
-            defaultValue={titleTh}
+            defaultValue={title.th}
             onChange={e => this.handleTitle('th', e.target.value)}
           />
         </div>
@@ -36,7 +36,7 @@ class Title extends React.Component {
             hintText="Input title in english"
             floatingLabelText="Title in English"
             fullWidth={true}
-            defaultValue={titleEn}
+            defaultValue={title.en}
             onChange={e => this.handleTitle('en', e.target.value)}
           />
         </div>

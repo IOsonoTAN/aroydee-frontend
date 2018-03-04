@@ -1,6 +1,6 @@
 import React from 'react'
-import { actionsChangeKind } from '../../actions/restaurantActions'
 import { connect } from 'react-redux'
+import { actionsChangeKind } from '../../actions/restaurantActions'
 import { TextField } from 'material-ui'
 
 class Kind extends React.Component {

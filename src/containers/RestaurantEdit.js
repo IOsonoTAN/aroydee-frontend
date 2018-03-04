@@ -6,8 +6,7 @@ import { Snackbar } from 'material-ui'
 import { BusinessHours, Kind, MapLocation, PictureUploader, RatingSlider, TextboxTelephone, Title, Type } from '../components/restaurantForm'
 import Loading from '../components/Loading'
 import ButtonControllers from '../components/ButtonControllers'
-import { string } from '../helpers'
-import { apiUrl, appName, defaultValues } from '../config'
+import { apiUrl, appName } from '../config'
 import defaultRestaurant from '../reducers/defaults/restaurant'
 
 class RestaurantEdit extends React.Component {
@@ -15,7 +14,6 @@ class RestaurantEdit extends React.Component {
     super(props)
 
     this.state = {
-      restaurant: {},
       dialog: {
         status: false,
         title: null,
@@ -23,15 +21,10 @@ class RestaurantEdit extends React.Component {
         redirect: null
       },
       provinces: [],
-      businessHours: {},
-      businessHoursOpen: [],
-      businessHoursClose: [],
       isNewObject: false,
       title: ''
     }
 
-    this.handleBusinessHoursToggle = this.handleBusinessHoursToggle.bind(this)
-    this.handleTimePicker = this.handleTimePicker.bind(this)
     this.handleDialogClose = this.handleDialogClose.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
     this.requestSubmit = this.requestSubmit.bind(this)
@@ -68,27 +61,9 @@ class RestaurantEdit extends React.Component {
         this.props.dispatch(actionsSetCanEdit(true))
       }, 1500)
 
-      // const businessHours = this.state.businessHours
-      // const businessHoursOpen = this.state.businessHoursOpen
-      // const businessHoursClose = this.state.businessHoursClose
-
-      // for (const day of defaultValues.days) {
-      //   businessHours[day].enabled = (isNewObject ? false : restaurant.data.data.businessHours[day].enabled)
-      //   businessHoursOpen[day].time = (isNewObject ? defaultValues.businessHours.open : new Date(restaurant.data.data.businessHours[day].open))
-      //   businessHoursClose[day].time = (isNewObject ? defaultValues.businessHours.close : new Date(restaurant.data.data.businessHours[day].close))
-      // }
-
-      // this.setState({
-      //   businessHours,
-      //   businessHoursOpen,
-      //   businessHoursClose,
-      //   loading: false
-      // })
-
       document.title = `${title} - ${appName}`
     } catch (e) {
       console.error('e ->', e.stack)
-
       this.setState({
         ...this.state,
         dialog: {
@@ -155,9 +130,9 @@ class RestaurantEdit extends React.Component {
   async handleSubmit (e) {
     e.preventDefault()
 
-    // console.log('handleSubmit ->', this.props.restaurantReducers)
+    console.log('handleSubmit ->', this.props.restaurantReducers)
 
-    this.requestSubmit(this.props.restaurantReducers.restaurant)
+    // this.requestSubmit(this.props.restaurantReducers.restaurant)
   }
 
   handleDialogClose () {
@@ -172,65 +147,6 @@ class RestaurantEdit extends React.Component {
     }
   }
 
-  handleBusinessHoursToggle (e, day) {
-    const isToggled = ((e.target.getAttribute('data-toggled') === 'true') === false)
-    const { businessHours, businessHoursOpen, businessHoursClose, restaurant } = this.state
-
-    businessHours[day].enabled = isToggled
-    businessHoursOpen[day].time = (businessHoursOpen[day].time ? businessHoursOpen[day].time : defaultValues.businessHours.open)
-    businessHoursClose[day].time = (businessHoursClose[day].time ? businessHoursClose[day].time : defaultValues.businessHours.close)
-    this.setState({
-      businessHours,
-      businessHoursOpen,
-      businessHoursClose
-    })
-
-    for (const defaultDay of defaultValues.days) {
-      restaurant.businessHours[defaultDay] = {
-        enabled: (businessHours[defaultDay].enabled === true),
-        open: (businessHoursOpen[day].time ? businessHoursOpen[day].time : defaultValues.businessHours.open),
-        close: (businessHoursClose[day].time ? businessHoursClose[day].time : defaultValues.businessHours.close)
-      }
-    }
-    this.setState({
-      restaurant: {
-        ...this.state.restaurant,
-        businessHours: restaurant.businessHours
-      }
-    })
-  }
-
-  handleTimePicker (type, day, date) {
-    const { businessHoursOpen, businessHoursClose, restaurant } = this.state
-    const hours = string.zeroFill(date.getHours())
-    const minutes = string.zeroFill(date.getMinutes())
-
-    if (type === 'open') {
-      businessHoursOpen[day].time = new Date(`1989/11/02 ${hours}:${minutes}:00`)
-    } else {
-      businessHoursClose[day].time = new Date(`1989/11/02 ${hours}:${minutes}:00`)
-    }
-
-    this.setState({
-      restaurant: {
-        ...this.state.restaurant,
-        businessHoursOpen,
-        businessHoursClose
-      }
-    })
-
-    for (const defaultDay of defaultValues.days) {
-      restaurant.businessHours[defaultDay].open = (businessHoursOpen[defaultDay].time ? businessHoursOpen[defaultDay].time : defaultValues.businessHours.open)
-      restaurant.businessHours[defaultDay].close = (businessHoursClose[defaultDay].time ? businessHoursClose[defaultDay].time : defaultValues.businessHours.close)
-    }
-    this.setState({
-      restaurant: {
-        ...this.state.restaurant,
-        businessHours: restaurant.businessHours
-      }
-    })
-  }
-
   render () {
     const title = this.props.restaurantReducers.restaurant.title
     const pictures = this.props.restaurantReducers.restaurant.pictures
@@ -239,13 +155,14 @@ class RestaurantEdit extends React.Component {
       <div className="container">
         {this.props.restaurantReducers.canEdit &&
           <div className="card-box">
-            <h1>{this.state.title}</h1><hr />
+            <h1>{this.state.title}</h1>
             <form onSubmit={this.handleSubmit}>
+              <ButtonControllers
+                loading={this.props.restaurantReducers.loading}
+                backUrl='/restaurants'
+              /><hr />
               <h3>Information</h3>
-              <Title
-                titleTh={title.th}
-                titleEn={title.en}
-              />
+              <Title title={title} />
               <div className="row">
                 <div className="col-sm-4">
                   <Kind kind={this.props.restaurantReducers.restaurant.kind} />
@@ -272,13 +189,7 @@ class RestaurantEdit extends React.Component {
               <hr />
               <div className="row">
                 <div className="col-xs-12">
-                  <BusinessHours
-                    businessHours={this.state.businessHours}
-                    businessHoursOpen={this.state.businessHoursOpen}
-                    businessHoursClose={this.state.businessHoursClose}
-                    handleBusinessHoursToggle={this.handleBusinessHoursToggle}
-                    handleTimePicker={this.handleTimePicker}
-                  />
+                  <BusinessHours businessHours={this.props.restaurantReducers.restaurant.businessHours} />
                 </div>
               </div>
               <hr />
