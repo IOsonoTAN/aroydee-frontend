@@ -15,7 +15,7 @@ const ButtonControllers = ({ loading, backUrl, backLabel, submitLabel }) => {
         </div>
         <div className="pull-right">
           <RefreshIndicator
-            size={30}
+            size={24}
             left={-10}
             top={7}
             status="loading"

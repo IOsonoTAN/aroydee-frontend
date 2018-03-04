@@ -18,6 +18,10 @@ export default {
     th: '',
     en: ''
   },
+  description: {
+    th: '',
+    en: ''
+  },
   pictures: {
     logo: {
       alt: null,

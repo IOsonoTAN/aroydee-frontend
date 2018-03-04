@@ -94,3 +94,13 @@ export const actionsChangeBusinessHours = businessHours => {
     payload: businessHours
   }
 }
+
+export const actionsChangeDescription = (lang, value) => {
+  return {
+    type: 'CHANGE_DESCRIPTION',
+    payload: {
+      lang,
+      value
+    }
+  }
+}

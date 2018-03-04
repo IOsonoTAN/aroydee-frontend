@@ -3,7 +3,7 @@ import axios from 'axios'
 import { connect } from 'react-redux'
 import { actionsSetInitState, actionsSetLoading, actionsSetCanEdit } from '../actions/restaurantActions'
 import { Snackbar } from 'material-ui'
-import { BusinessHours, Kind, MapLocation, PictureUploader, RatingSlider, TextboxTelephone, Title, Type } from '../components/restaurantForm'
+import { BusinessHours, Description, Kind, MapLocation, PictureUploader, RatingSlider, TextboxTelephone, Title, Type } from '../components/restaurantForm'
 import Loading from '../components/Loading'
 import ButtonControllers from '../components/ButtonControllers'
 import { apiUrl, appName } from '../config'
@@ -163,6 +163,7 @@ class RestaurantEdit extends React.Component {
               /><hr />
               <h3>Information</h3>
               <Title title={title} />
+              <Description description={this.props.restaurantReducers.restaurant.description} />
               <div className="row">
                 <div className="col-sm-4">
                   <Kind kind={this.props.restaurantReducers.restaurant.kind} />

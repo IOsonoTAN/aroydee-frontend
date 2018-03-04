@@ -50,6 +50,25 @@ export default (state = stateDefaults, { type, payload }) => {
         }
       }
     }
+    case "CHANGE_DESCRIPTION": {
+      const { lang, value } = payload
+      let description = state.restaurant.description
+      if (!description) {
+        description = {
+          th: '',
+          en: ''
+        }
+      }
+      description[lang] = value
+
+      return {
+        ...state,
+        restaurant: {
+          ...state.restaurant,
+          description
+        }
+      }
+    }
     case "CHANGE_KIND": {
       return {
         ...state,

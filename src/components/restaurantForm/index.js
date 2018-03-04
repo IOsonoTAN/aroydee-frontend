@@ -1,4 +1,5 @@
 export { default as BusinessHours } from './BusinessHours'
+export { default as Description } from './Description'
 export { default as Kind } from './Kind'
 export { default as MapLocation } from './MapLocation'
 export { default as Rating } from './Rating'
