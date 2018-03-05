@@ -15,7 +15,7 @@ module.exports = {
   host,
   port,
   baseUrl,
-  apiUrl: process.env.API_URL || 'http://localhost:5004',
+  apiUrl: process.env.REACT_APP_API_URL || 'http://localhost:5004',
   cloudinary: {
     cloudName: process.env.REACT_APP_CLOUDINARY_CLOUD_NAME,
     apiKey: process.env.REACT_APP_CLOUDINARY_API_KEY,

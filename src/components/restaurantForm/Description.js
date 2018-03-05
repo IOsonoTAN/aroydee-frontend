@@ -25,7 +25,7 @@ class Description extends React.Component {
 
     return (
       <div className="row">
-        <div className="col-xs-12 col-sm-12 col-md-6">
+        <div className="col-xs-12 col-sm-12 col-md-12">
           <TextField
             name="description"
             type="text"
@@ -33,13 +33,13 @@ class Description extends React.Component {
             floatingLabelText="Description in Thai"
             fullWidth={true}
             multiLine={true}
-            rows={4}
+            rows={3}
             rowsMax={8}
             defaultValue={description.th}
             onChange={e => this.handleDescription('th', e.target.value)}
           />
         </div>
-        <div className="col-xs-12 col-sm-12 col-md-6">
+        <div className="col-xs-12 col-sm-12 col-md-6 hidden">
           <TextField
             name="description"
             type="text"
@@ -47,7 +47,7 @@ class Description extends React.Component {
             floatingLabelText="Description in English"
             fullWidth={true}
             multiLine={true}
-            rows={4}
+            rows={3}
             rowsMax={8}
             defaultValue={description.en}
             onChange={e => this.handleDescription('en', e.target.value)}

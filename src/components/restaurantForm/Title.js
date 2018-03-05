@@ -19,7 +19,7 @@ class Title extends React.Component {
 
     return (
       <div className="row">
-        <div className="col-sm-6">
+        <div className="col-sm-12">
           <TextField
             name="nameTH"
             type="text"
@@ -30,7 +30,7 @@ class Title extends React.Component {
             onChange={e => this.handleTitle('th', e.target.value)}
           />
         </div>
-        <div className="col-sm-6">
+        <div className="col-sm-6 hidden">
           <TextField
             name="nameEN"
             hintText="Input title in english"

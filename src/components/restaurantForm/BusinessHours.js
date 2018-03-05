@@ -13,6 +13,7 @@ class BusinessHours extends React.Component {
 
     this.handleBusinessHoursToggle = this.handleBusinessHoursToggle.bind(this)
     this.handleTimePicker = this.handleTimePicker.bind(this)
+    this.setDefaultTimes = this.setDefaultTimes.bind(this)
   }
 
   handleBusinessHoursToggle (e, day) {
@@ -34,6 +35,18 @@ class BusinessHours extends React.Component {
     this.props.dispatch(actionsChangeBusinessHours(businessHours))
   }
 
+  setDefaultTimes (type, date) {
+    const businessHours = this.props.businessHours
+    const hours = string.zeroFill(date.getHours())
+    const minutes = string.zeroFill(date.getMinutes())
+
+    for (const day of Object.keys(businessHours)) {
+      businessHours[day][type] = new Date(`1989/11/02 ${hours}:${minutes}:00`)
+    }
+
+    this.props.dispatch(actionsChangeBusinessHours(businessHours))
+  }
+
   render () {
     const textFieldStyle = {
       fontSize: '14px',
@@ -44,6 +57,41 @@ class BusinessHours extends React.Component {
     return (
       <div className="wrapper">
         <h3>Business hours</h3>
+        <div className="row">
+          <div className="col-xs-12 margin-bottom-10">
+            <div className="row">
+              <div className="col-xs-12">
+                <p style={{
+                  marginBottom: '9px'
+                }}>Set this times for everyday</p>
+              </div>
+              <div className="col-xs-6">
+                <TimePicker
+                  format="24hr"
+                  hintText="Open time"
+                  minutesStep={5}
+                  fullWidth={true}
+                  textFieldStyle={textFieldStyle}
+                  autoOk={true}
+                  value={new Date(this.props.businessHours.monday.open)}
+                  onChange={(e, date) => this.setDefaultTimes('open', date)}
+                />
+              </div>
+              <div className="col-xs-6">
+                <TimePicker
+                  format="24hr"
+                  hintText="Close time"
+                  minutesStep={5}
+                  fullWidth={true}
+                  textFieldStyle={textFieldStyle}
+                  autoOk={true}
+                  value={new Date(this.props.businessHours.monday.close)}
+                  onChange={(e, date) => this.setDefaultTimes('close', date)}
+                />
+              </div>
+            </div>
+          </div>
+        </div>
         <div className="row">
           {defaultValues.days.map(day => {
             const dayHours = this.props.businessHours[day]

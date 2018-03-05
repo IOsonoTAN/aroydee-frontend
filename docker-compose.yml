@@ -1,0 +1,15 @@
+version: "2"
+
+services:
+  api:
+    build:
+      context: .
+      args:
+        NODE_ENV: "production"
+    container_name: aroydee-cms
+    env_file: .env
+    # volumes:
+    #   - /etc/timezone:/etc/timezone:ro
+    #   - /etc/localtime:/etc/localtime:ro
+    ports:
+      - 3000:3000

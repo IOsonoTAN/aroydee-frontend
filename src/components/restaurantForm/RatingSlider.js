@@ -28,7 +28,7 @@ class RatingSlider extends React.Component {
           onChange={this.handleRatingSlider}
           max={5}
           min={0}
-          step={1}
+          step={0.1}
           defaultValue={rating}
           sliderStyle={{
             marginBottom: 0,

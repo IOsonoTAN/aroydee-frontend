@@ -17,7 +17,7 @@ class GalleryUploader extends React.Component {
   async handleUpload (files, moduleName) {
     this.props.dispatch(actionsSetLoading(true))
     for (const file of files) {
-      const gallery = this.props.restaurantReducers.restaurant.gallery
+      const gallery = this.props.restaurantReducers.restaurant.gallery || []
       const uploaded = await cloudinary.upload(file, 'restaurant')
       if (uploaded.public_id) {
         gallery.push({
@@ -51,6 +51,26 @@ class GalleryUploader extends React.Component {
 
     moduleDesc = (!moduleDesc ? 'description of this picture' : moduleDesc)
 
+    let pictures = null
+    if (gallery && gallery.length > 0) {
+      pictures = gallery.map((picture, i) => {
+        return (
+          <div className="col-xs-3 gallery-picture" key={i}>
+            <Image
+              cloudName={cloudinary.config.cloudName}
+              publicId={picture.publicId}
+              alt={picture.alt}
+              crop="thumb"
+              className={`img-responsive restaurant-gallery img-center margin-bottom-10`}
+            />
+            <a className="button-remove" onClick={e => this.handleRemovePicture(e, picture.publicId)}>
+              <ActionDelete />
+            </a>
+          </div>
+        )
+      })
+    }
+
     return (
       <div className="wrapper">
         <h4 style={{
@@ -65,22 +85,7 @@ class GalleryUploader extends React.Component {
           <p>drop or click to upload new picture into gallery</p>
         </Dropzone>
         <div className="row">
-          {gallery.map((picture, i) => {
-            return (
-              <div className="col-xs-6 gallery-picture" key={i}>
-                <Image
-                  cloudName={cloudinary.config.cloudName}
-                  publicId={picture.publicId}
-                  alt={picture.alt}
-                  crop="thumb"
-                  className={`img-responsive restaurant-gallery img-center margin-bottom-10`}
-                />
-                <a className="button-remove" href="#" onClick={e => this.handleRemovePicture(e, picture.publicId)}>
-                  <ActionDelete />
-                </a>
-              </div>
-            )
-          })}
+          {pictures}
         </div>
       </div>
     )
