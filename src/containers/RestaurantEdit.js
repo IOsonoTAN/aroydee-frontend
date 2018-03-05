@@ -87,9 +87,11 @@ class RestaurantEdit extends React.Component {
         const created = await axios.post(`${apiUrl}/cms/restaurants`, formBody)
         const restaurant = created.data.data
 
+        this.props.dispatch(actionsSetInitState(restaurant))
+
         this.setState({
           ...this.state,
-          restaurant
+          isNewObject: false
         })
       } else {
         await axios.put(`${apiUrl}/cms/restaurants/${formBody._id}`, formBody)
