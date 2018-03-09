@@ -26,7 +26,9 @@ class Type extends React.Component {
         onChange={this.handleType}
       >
         <MenuItem value="normal" primaryText="Normal" />
-        <MenuItem value="recommended" primaryText="Recommended" />
+        <MenuItem value="recommend" primaryText="Recommend" />
+        <MenuItem value="weekly" primaryText="Weekly" />
+        <MenuItem value="popular" primaryText="Popular" />
       </SelectField>
     )
   }
