@@ -10,11 +10,7 @@ export default class RestaurantList extends React.Component {
     return (
       <div className="restaurant-list">
         { restaurants.map(restaurant => {
-            const objectId = restaurant._id
-            const description = {
-              th: (restaurant.description ? restaurant.description.th : null),
-              en: (restaurant.description ? restaurant.description.en : null)
-            }
+            const { _id: objectId, description } = restaurant
 
             return (
               <div key={objectId} className="restaurant" id={objectId}>
