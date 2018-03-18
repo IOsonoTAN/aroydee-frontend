@@ -1,9 +1,26 @@
 import React from 'react'
 import axios from 'axios'
 import { connect } from 'react-redux'
-import { actionsSetInitState, actionsSetLoading, actionsSetCanEdit } from '../actions/restaurantActions'
 import { Snackbar } from 'material-ui'
-import { BusinessHours, Description, GalleryUploader, Kind, MapLocation, PictureUploader, RatingSlider, TextboxTelephone, Title, Type } from '../components/restaurantForm'
+import {
+  actionsSetInitState,
+  actionsSetLoading,
+  actionsSetCanEdit,
+  actionsIsNewObject
+} from '../actions/restaurantActions'
+import {
+  BusinessHours,
+  Category,
+  Description,
+  GalleryUploader,
+  Kind,
+  MapLocation,
+  PictureUploader,
+  RatingSlider,
+  TextboxTelephone,
+  Title,
+  Type
+} from '../components/restaurantForm'
 import Loading from '../components/Loading'
 import ButtonControllers from '../components/ButtonControllers'
 import { apiUrl, appName } from '../config'
@@ -21,7 +38,7 @@ class RestaurantEdit extends React.Component {
         redirect: null
       },
       provinces: [],
-      isNewObject: false,
+      categories: [],
       title: ''
     }
 
@@ -36,23 +53,24 @@ class RestaurantEdit extends React.Component {
       this.props.dispatch(actionsSetCanEdit(false))
 
       const { restaurantId } = this.props.match.params
-      const getQueries = [axios.get(`${apiUrl}/cms/provinces`)]
+      const getQueries = [axios.get(`${apiUrl}/cms/provinces`), axios.get(`${apiUrl}/cms/restaurants/categories`)]
       if (restaurantId) {
         getQueries.push(axios.get(`${apiUrl}/cms/restaurants/${restaurantId}`))
       }
-      const [provinces, restaurant] = await Promise.all(getQueries)
+      const [provinces, categories, restaurant] = await Promise.all(getQueries)
       const isNewObject = !restaurant
       const title = (isNewObject ? 'Add new restaurant' : `Edit restaurant ${restaurant.data.data.title.th}`)
 
       this.setState({
-        isNewObject,
         provinces: provinces.data.data,
+        categories: categories.data.data,
         title
       })
 
       if (restaurant && restaurant.data && restaurant.data.data) {
         this.props.dispatch(actionsSetInitState(restaurant.data.data))
       } else if (isNewObject) {
+        this.props.dispatch(actionsIsNewObject(true))
         this.props.dispatch(actionsSetInitState(defaultRestaurant))
       }
 
@@ -83,16 +101,13 @@ class RestaurantEdit extends React.Component {
 
       this.props.dispatch(actionsSetLoading(true))
 
-      if (this.state.isNewObject) {
+      if (this.props.restaurantReducers.isNewObject) {
         const created = await axios.post(`${apiUrl}/cms/restaurants`, formBody)
         const restaurant = created.data.data
 
         this.props.dispatch(actionsSetInitState(restaurant))
 
-        this.setState({
-          ...this.state,
-          isNewObject: false
-        })
+        this.props.dispatch(actionsIsNewObject(false))
       } else {
         await axios.put(`${apiUrl}/cms/restaurants/${formBody._id}`, formBody)
       }
@@ -164,13 +179,16 @@ class RestaurantEdit extends React.Component {
               <Title title={title} />
               <Description description={this.props.restaurantReducers.restaurant.description} />
               <div className="row">
-                <div className="col-sm-4">
+                <div className="col-sm-3">
+                  <Category categories={this.state.categories} category={this.props.restaurantReducers.restaurant.category} />
+                </div>
+                <div className="col-sm-3">
                   <Kind kind={this.props.restaurantReducers.restaurant.kind} />
                 </div>
-                <div className="col-sm-4">
+                <div className="col-sm-3">
                   <Type type={this.props.restaurantReducers.restaurant.type} />
                 </div>
-                <div className="col-sm-4">
+                <div className="col-sm-3">
                   <RatingSlider rating={this.props.restaurantReducers.restaurant.rating} />
                 </div>
               </div>

@@ -1,3 +1,10 @@
+export const actionsIsNewObject = isNewObject => {
+  return {
+    type: 'IS_NEW_OBJECT',
+    payload: isNewObject
+  }
+}
+
 export const actionsSetInitState = restaurant => {
   return {
     type: 'SET_INIT_STATE',
@@ -47,6 +54,13 @@ export const actionsChangeType = type => {
   return {
     type: 'CHANGE_TYPE',
     payload: type
+  }
+}
+
+export const actionsChangeCategory = categoryId => {
+  return {
+    type: 'CHANGE_CATEGORY',
+    payload: categoryId
   }
 }
 

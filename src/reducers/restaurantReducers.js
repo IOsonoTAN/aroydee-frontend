@@ -1,6 +1,7 @@
 import { default as restaurant } from './defaults/restaurant'
 
 const stateDefaults = {
+  isNewObject: false,
   loading: true,
   canEdit: false,
   restaurant,
@@ -20,6 +21,12 @@ export default (state = stateDefaults, { type, payload }) => {
       return {
         ...state,
         canEdit: payload
+      }
+    }
+    case "IS_NEW_OBJECT": {
+      return {
+        ...state,
+        isNewObject: payload
       }
     }
     case "SET_INIT_STATE": {
@@ -84,6 +91,17 @@ export default (state = stateDefaults, { type, payload }) => {
         restaurant: {
           ...state.restaurant,
           type: payload
+        }
+      }
+    }
+    case "CHANGE_CATEGORY": {
+      console.log('payload ->', payload)
+      console.log('state.restaurant ->', state.restaurant)
+      return {
+        ...state,
+        restaurant: {
+          ...state.restaurant,
+          category: payload
         }
       }
     }

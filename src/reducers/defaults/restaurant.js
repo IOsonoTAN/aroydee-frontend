@@ -42,5 +42,6 @@ export default {
   telephone: [],
   businessHours,
   type: 'normal',
-  province: null
+  province: null,
+  category: null
 }

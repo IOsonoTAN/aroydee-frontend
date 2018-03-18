@@ -1,4 +1,5 @@
 export { default as BusinessHours } from './BusinessHours'
+export { default as Category } from './Category'
 export { default as Description } from './Description'
 export { default as GalleryUploader } from './GalleryUploader'
 export { default as Kind } from './Kind'
