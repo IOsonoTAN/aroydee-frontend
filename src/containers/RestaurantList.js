@@ -54,6 +54,16 @@ class Restaurants extends React.Component {
   }
 
   render() {
+    const pagination = this.state.paginate.pages > 1 &&
+      <div className="col-xs-12">
+        <Pagination
+          total={this.state.paginate.pages}
+          current={this.state.paginate.page}
+          display={5}
+          onChange={this.handlePaginate}
+        />
+      </div>
+
     return (
       <div className="container">
         <h1>Restaurant list</h1>
@@ -61,21 +71,16 @@ class Restaurants extends React.Component {
           <RaisedButton label="Add new restaurant" containerElement={<Link to="restaurants/add" />} />
         </div>
         <hr />
-        <div className="row">
+        <div className="row pagination-top">
+          {pagination}
+        </div>
+        <div className="row margin-bottom-10 margin-top-10">
           <div className="col-xs-12">
             <RestaurantList restaurants={this.state.restaurants} />
           </div>
-          {this.state.paginate.pages > 1 &&
-            <div className="col-xs-12">
-              <hr/>
-              <Pagination
-                total={this.state.paginate.pages}
-                current={this.state.paginate.page}
-                display={5}
-                onChange={this.handlePaginate}
-              />
-            </div>
-          }
+        </div>
+        <div className="row pagination-bottom">
+          {pagination}
         </div>
       </div>
     )
