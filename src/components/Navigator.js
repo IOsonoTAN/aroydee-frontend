@@ -40,6 +40,7 @@ class Navigator extends React.Component {
         <div style={styles.menus}>
           <MenuItem primaryText="Dashboard" containerElement={<Link to="/" />} />
           <MenuItem primaryText="Restaurants" containerElement={<Link to="/restaurants" />} />
+          <MenuItem primaryText="Restaurant Categories" containerElement={<Link to="/restaurants/categories" />} />
           <MenuItem primaryText="Coupons" containerElement={<Link to="/coupons" />} />
           <Divider />
           <MenuItem primaryText="Sign out" containerElement={<Link to="/logout" />} />

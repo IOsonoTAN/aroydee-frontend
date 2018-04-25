@@ -29,5 +29,6 @@ const upload = async (file, preset = '', resource = 'image') => {
 export default {
   config: config.cloudinary,
   upload,
-  destroy: cloudinary.uploader.destroy
+  destroy: cloudinary.uploader.destroy,
+  url: cloudinary.url
 }

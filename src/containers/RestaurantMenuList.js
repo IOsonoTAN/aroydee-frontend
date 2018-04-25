@@ -452,7 +452,6 @@ class RestaurantMenuList extends React.Component {
             {this.state.menus.length === 0 &&
               <div>
                 <p>Sorry, there is no menu on this restaurant.</p>
-                <p>Try to <a href="#" onClick={this.openAddNewDialog}>add a new menu</a></p>
               </div>
             }
             {this.state.menus.map(menu => {
