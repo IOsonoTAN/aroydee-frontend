@@ -63,7 +63,7 @@ class RestaurantEdit extends React.Component {
 
       this.setState({
         provinces: provinces.data.data,
-        categories: categories.data.data,
+        categories: categories.data.data.docs,
         title
       })
 
