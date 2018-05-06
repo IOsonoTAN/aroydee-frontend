@@ -21,7 +21,7 @@ class BusinessHours extends React.Component {
   }
 
   handleBusinessHoursToggle (e, day) {
-    const businessHours = this.props.businessHours
+    const { businessHours } = this.props
     const isEnabled = (e.target.getAttribute('data-enabled') === 'true')
     
     businessHours[day].enabled = (isEnabled !== true)
@@ -67,6 +67,16 @@ class BusinessHours extends React.Component {
       cursor: 'pointer'
     }
 
+    const getOpenCloseDay = () => {
+      const { openCloseDay, restaurant } = this.props
+      if (!restaurant.openCloseDay) {
+        return openCloseDay
+      }
+      return restaurant.openCloseDay
+    }
+
+    const openCloseDay = getOpenCloseDay()
+
     return (
       <div className="wrapper">
         <h3>Business hours</h3>
@@ -85,7 +95,7 @@ class BusinessHours extends React.Component {
                   name="startDay"
                   floatingLabelText="Start Day"
                   fullWidth={true}
-                  value={this.props.openCloseDay.open}
+                  value={openCloseDay.open}
                   onChange={(e, _, value) => this.handleOpenCloseDay('open', value)}
                 >
                   <MenuItem value="monday" primaryText="Monday" />
@@ -102,7 +112,7 @@ class BusinessHours extends React.Component {
                   name="endDay"
                   floatingLabelText="End Day"
                   fullWidth={true}
-                  value={this.props.openCloseDay.close}
+                  value={openCloseDay.close}
                   onChange={(e, _, value) => this.handleOpenCloseDay('close', value)}
                 >
                   <MenuItem value="monday" primaryText="Monday" />

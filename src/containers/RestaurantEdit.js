@@ -216,6 +216,7 @@ class RestaurantEdit extends React.Component {
               <div className="row">
                 <div className="col-xs-12">
                   <BusinessHours
+                    restaurant={this.props.restaurantReducers.restaurant}
                     businessHours={this.props.restaurantReducers.restaurant.businessHours}
                     openCloseDay={this.props.restaurantReducers.openCloseDay}
                   />
