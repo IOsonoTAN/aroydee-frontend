@@ -1,7 +1,10 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { Toggle, TimePicker } from 'material-ui'
-import { actionsChangeBusinessHours } from '../../actions/restaurantActions'
+import { Toggle, TimePicker, SelectField, MenuItem } from 'material-ui'
+import {
+  actionsChangeBusinessHours,
+  actionsChangeOpenCloseDay
+} from '../../actions/restaurantActions'
 import config from '../../config'
 import { string } from '../../helpers'
 
@@ -14,6 +17,7 @@ class BusinessHours extends React.Component {
     this.handleBusinessHoursToggle = this.handleBusinessHoursToggle.bind(this)
     this.handleTimePicker = this.handleTimePicker.bind(this)
     this.setDefaultTimes = this.setDefaultTimes.bind(this)
+    this.handleOpenCloseDay = this.handleOpenCloseDay.bind(this)
   }
 
   handleBusinessHoursToggle (e, day) {
@@ -26,7 +30,7 @@ class BusinessHours extends React.Component {
   }
 
   handleTimePicker (type, day, date) {
-    const businessHours = this.props.businessHours
+    const { businessHours } = this.props
     const hours = string.zeroFill(date.getHours())
     const minutes = string.zeroFill(date.getMinutes())
 
@@ -36,7 +40,7 @@ class BusinessHours extends React.Component {
   }
 
   setDefaultTimes (type, date) {
-    const businessHours = this.props.businessHours
+    const { businessHours, openCloseDay } = this.props
     const hours = string.zeroFill(date.getHours())
     const minutes = string.zeroFill(date.getMinutes())
 
@@ -45,6 +49,15 @@ class BusinessHours extends React.Component {
     }
 
     this.props.dispatch(actionsChangeBusinessHours(businessHours))
+
+    openCloseDay[`${type}Time`] = `${hours}:${minutes}`
+    this.props.dispatch(actionsChangeOpenCloseDay(openCloseDay))
+  }
+
+  handleOpenCloseDay (type, day) {
+    const { openCloseDay } = this.props
+    openCloseDay[type] = day
+    this.props.dispatch(actionsChangeOpenCloseDay(openCloseDay))
   }
 
   render () {
@@ -65,6 +78,44 @@ class BusinessHours extends React.Component {
                   marginBottom: '9px'
                 }}>Set this times for everyday</p>
               </div>
+            </div>
+            <div className="row">
+              <div className="col-xs-6">
+                <SelectField
+                  name="startDay"
+                  floatingLabelText="Start Day"
+                  fullWidth={true}
+                  value={this.props.openCloseDay.open}
+                  onChange={(e, _, value) => this.handleOpenCloseDay('open', value)}
+                >
+                  <MenuItem value="monday" primaryText="Monday" />
+                  <MenuItem value="tuesday" primaryText="Tuesday" />
+                  <MenuItem value="wednesday" primaryText="Wednesday" />
+                  <MenuItem value="thursday" primaryText="Thursday" />
+                  <MenuItem value="friday" primaryText="Friday" />
+                  <MenuItem value="saturday" primaryText="Saturday" />
+                  <MenuItem value="sunday" primaryText="Sunday" />
+                </SelectField>
+              </div>
+              <div className="col-xs-6">
+                <SelectField
+                  name="endDay"
+                  floatingLabelText="End Day"
+                  fullWidth={true}
+                  value={this.props.openCloseDay.close}
+                  onChange={(e, _, value) => this.handleOpenCloseDay('close', value)}
+                >
+                  <MenuItem value="monday" primaryText="Monday" />
+                  <MenuItem value="tuesday" primaryText="Tuesday" />
+                  <MenuItem value="wednesday" primaryText="Wednesday" />
+                  <MenuItem value="thursday" primaryText="Thursday" />
+                  <MenuItem value="friday" primaryText="Friday" />
+                  <MenuItem value="saturday" primaryText="Saturday" />
+                  <MenuItem value="sunday" primaryText="Sunday" />
+                </SelectField>
+              </div>
+            </div>
+            <div className="row">
               <div className="col-xs-6">
                 <TimePicker
                   format="24hr"
@@ -92,7 +143,7 @@ class BusinessHours extends React.Component {
             </div>
           </div>
         </div>
-        <div className="row">
+        <div className="row hidden">
           {defaultValues.days.map(day => {
             const dayHours = this.props.businessHours[day]
             const isEnabled = dayHours.enabled

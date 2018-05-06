@@ -94,12 +94,16 @@ class RestaurantEdit extends React.Component {
     }
   }
 
-  async requestSubmit (formBody) {
+  async requestSubmit (formBody, openCloseDay = null) {
     try {
       delete formBody.businessHoursOpen
       delete formBody.businessHoursClose
 
       this.props.dispatch(actionsSetLoading(true))
+
+      if (openCloseDay) {
+        formBody.openCloseDay = openCloseDay
+      }
 
       if (this.props.restaurantReducers.isNewObject) {
         const created = await axios.post(`${apiUrl}/cms/restaurants`, formBody)
@@ -146,7 +150,11 @@ class RestaurantEdit extends React.Component {
 
   async handleSubmit (e) {
     e.preventDefault()
-    this.requestSubmit(this.props.restaurantReducers.restaurant)
+    const {
+      restaurant,
+      openCloseDay
+    } = this.props.restaurantReducers
+    this.requestSubmit(restaurant, openCloseDay)
   }
 
   handleDialogClose () {
@@ -207,7 +215,10 @@ class RestaurantEdit extends React.Component {
               <hr />
               <div className="row">
                 <div className="col-xs-12">
-                  <BusinessHours businessHours={this.props.restaurantReducers.restaurant.businessHours} />
+                  <BusinessHours
+                    businessHours={this.props.restaurantReducers.restaurant.businessHours}
+                    openCloseDay={this.props.restaurantReducers.openCloseDay}
+                  />
                 </div>
               </div>
               <hr />

@@ -6,7 +6,13 @@ const stateDefaults = {
   canEdit: false,
   restaurant,
   businessHoursOpen: [],
-  businessHoursClose: []
+  businessHoursClose: [],
+  openCloseDay: {
+    open: 'monday',
+    openTime: '09:00',
+    close: 'friday',
+    closeTime: '09:00'
+  }
 }
 
 export default (state = stateDefaults, { type, payload }) => {
@@ -76,6 +82,11 @@ export default (state = stateDefaults, { type, payload }) => {
         }
       }
     }
+    case "CHANGE_OPEN_CLOSE_DAY": {
+      return {
+        ...state
+      }
+    }
     case "CHANGE_KIND": {
       return {
         ...state,
@@ -95,8 +106,6 @@ export default (state = stateDefaults, { type, payload }) => {
       }
     }
     case "CHANGE_CATEGORY": {
-      console.log('payload ->', payload)
-      console.log('state.restaurant ->', state.restaurant)
       return {
         ...state,
         restaurant: {

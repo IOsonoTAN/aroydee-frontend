@@ -125,3 +125,13 @@ export const actionsChangeDescription = (lang, value) => {
     }
   }
 }
+
+export const actionsChangeOpenCloseDay = (type, value) => {
+  return {
+    type: 'CHANGE_OPEN_CLOSE_DAY',
+    payload: {
+      type,
+      value
+    }
+  }
+}
